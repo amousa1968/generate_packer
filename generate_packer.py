@@ -630,7 +630,7 @@ final_message: "System setup completed after $UPTIME seconds"
         print(f"\n{'=' * 60}")
         print("SUCCESS!")
         print(f"{'=' * 60}")
-        print(f"Generated Packer HCL file: {self.output_file}")
+        print("Generated Packer HCL file: {}".format(self.output_file))
         print(f"\nTo build and deploy, run:")
         print(f"  packer init {self.output_file}")
         print(f"  packer validate {self.output_file}")
