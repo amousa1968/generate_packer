@@ -81,16 +81,16 @@ jobs:
 
       - name: Generate Packer HCL and validate
         run: |
-          # Generate sample HCL if templates exist
-          if [ -d "templates/configuration" ]; then
-            python generate_packer.py || echo "No configurations found, skipping generation"
-          fi
+          # Skip interactive generator (no input in CI)
+          echo "Skipping interactive Packer HCL generation in CI"
           
-          # Validate existing HCL files
+          # Validate existing HCL files (skip if none exist)
           for hcl in *.pkr.hcl generator_packer.pkr.hcl test-*.pkr.hcl; do
             if [ -f "$hcl" ]; then
               packer validate "$hcl" || exit 1
               echo "✓ Validated $hcl"
+            else
+              echo "No HCL files to validate, skipping"
             fi
           done
 
