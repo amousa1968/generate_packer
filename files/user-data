@@ -1,0 +1,22 @@
+#cloud-config
+users:
+  - name: rocky
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    shell: /bin/bash
+    ssh_authorized_keys: []
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - git
+  - ansible
+  - curl
+  - wget
+
+runcmd:
+  - mkdir -p /mnt/data
+  - touch /mnt/data/testfile
+  - echo "VM configured successfully" > /mnt/data/status.txt
+
+final_message: "System setup completed after $UPTIME seconds"

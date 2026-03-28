@@ -1,0 +1,39 @@
+<powershell>
+# Windows PowerShell User Data Script
+Write-Host "Windows VM Configuration Starting..." -ForegroundColor Green
+
+# Update Windows
+Write-Host "Updating Windows..." -ForegroundColor Yellow
+Install-WindowsUpdate -AcceptAll -AutoReboot:$false -IgnoreReboot
+
+# Disable Windows Firewall (as per config)
+Write-Host "Disabling Windows Firewall..." -ForegroundColor Yellow
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+
+# Install Chocolatey if not present
+if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
+    Write-Host "Installing Chocolatey..." -ForegroundColor Yellow
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+}
+
+# Install packages
+Write-Host "Installing packages..." -ForegroundColor Yellow
+choco install -y git poshgit vscode --no-progress
+
+# Volume setup - format and mount attached volume (typically D:)
+Write-Host "Configuring volume..." -ForegroundColor Yellow
+if (Test-Path D:) {
+    Write-Host "Volume D: found, formatting NTFS..." -ForegroundColor Yellow
+    Format-Volume -DriveLetter D -FileSystem NTFS -Force -Confirm:$false
+    New-Partition -DiskNumber (Get-Disk | Where-Object {$_.IsOffline -eq $false -and $_.Size -gt 50GB} | Select-Object -First 1).Number -UseMaximumSize -AssignDriveLetter
+    Format-Volume -DriveLetter D -FileSystem NTFS -Force -Confirm:$false
+}
+
+# Create data directory
+New-Item -ItemType Directory -Force -Path "D:\data"
+New-Item -ItemType File -Path "D:\data\provisioned.txt" -Value "Windows VM provisioned successfully!"
+
+Write-Host "Configuration completed!" -ForegroundColor Green
+</powershell>

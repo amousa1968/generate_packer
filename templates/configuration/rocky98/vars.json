@@ -1,0 +1,22 @@
+{
+  "configuration_name": "rocky98",
+  "instance_name": "rocky98-vm",
+  "golden_image_name": "Rocky-9-GenericCloud-latest",
+  "golden_image_uuid": "bbbbb-cccc-dddd-eeee-ffffffffffff",
+  "flavor": "m1.medium",
+  "network_uuid": "net-uuid-67890",
+  "network_name": "internal-network",
+  "domain_name": "default",
+  "volume_name": "rocky98-data-volume",
+  "volume_size_gb": 40,
+  "availability_zone": "az2",
+  "key_pair": "rocky98-key",
+  "ssh_username": "rocky",
+  "ssh_public_key": "files/rocky98_key.pub",
+  "security_groups": ["default", "web-sg"],
+  "project_name": "production",
+  "project_domain_name": "default",
+  "user_domain_name": "default",
+  "region": "RegionOne"
+}
+
