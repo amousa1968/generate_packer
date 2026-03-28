@@ -20,7 +20,6 @@ The script will:
 3. Generate generator_packer.hcl based on selected configuration
 """
 
-import os
 import json
 import sys
 import subprocess
@@ -33,7 +32,7 @@ def install_requirements():
     requirements_file = Path(__file__).parent / "requirements.txt"
     
     if not requirements_file.exists():
-        print(f"Warning: requirements.txt not found at {requirements_file}")
+        print("Warning: requirements.txt not found at {}".format(requirements_file))
         return False
     
     try:
@@ -48,12 +47,12 @@ def install_requirements():
 
 # Check and install requirements before proceeding
 try:
-    import openstack
-except ImportError:
-    print("Required packages not found. Installing...")
-    if install_requirements():
-        # Retry import after installation
-        import openstack
+        pass
+    except ImportError:
+        print("Required packages not found. Installing...")
+        if install_requirements():
+            # Requirements installed, openstack available if needed
+            pass
     else:
         print("Failed to install required packages. Please install manually:")
         print("  pip install -r requirements.txt")
