@@ -46,17 +46,8 @@ def install_requirements():
 
 
 # Check and install requirements before proceeding
-try:
-        pass
-    except ImportError:
-        print("Required packages not found. Installing...")
-        if install_requirements():
-            # Requirements installed, openstack available if needed
-            pass
-    else:
-        print("Failed to install required packages. Please install manually:")
-        print("  pip install -r requirements.txt")
-        sys.exit(1)
+if __name__ == "__main__":
+    pass
 
 
 class PackerGenerator:
