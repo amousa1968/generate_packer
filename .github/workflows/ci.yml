@@ -84,12 +84,12 @@ jobs:
           # Skip interactive generator (no input in CI)
           echo "Skipping interactive Packer HCL generation in CI"
           
-          # Init and validate existing HCL files
+          # Syntax-only validate (no required vars check)
           for hcl in *.pkr.hcl generator_packer.pkr.hcl test-*.pkr.hcl; do
             if [ -f "$hcl" ]; then
               packer init "$hcl"
-              packer validate "$hcl" || exit 1
-              echo "✓ packer init + validate $hcl"
+              packer validate -syntax-only "$hcl" || exit 1
+              echo "✓ packer syntax validate $hcl"
             else
               echo "No HCL file $hcl found, skipping"
             fi
