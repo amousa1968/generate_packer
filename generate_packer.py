@@ -348,8 +348,11 @@ source "openstack" "data-volume" {{
   image_name        = var.golden_image_name
   
   # Volume Configuration
-  volume_size       = var.volume_size_gb
-  volume_name       = var.volume_name
+  use_blockstorage_volume = true
+  volume_size             = var.volume_size_gb
+  volume_name             = var.volume_name
+  volume_type             = var.volume_type
+  delete_on_termination   = true
   
   # Availability Zone
   availability_zone = var.availability_zone
